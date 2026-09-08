@@ -54,6 +54,9 @@ func (p *platformLocalDNSTransport) Close() error {
 	return nil
 }
 
+func (p *platformLocalDNSTransport) Reset() {
+}
+
 func (p *platformLocalDNSTransport) Exchange(ctx context.Context, message *mDNS.Msg) (*mDNS.Msg, error) {
 	if p.raw && rawQueryFunc != nil {
 		// Raw - Android 10 及以上才有
@@ -118,6 +121,13 @@ func (p *platformLocalDNSTransport) Exchange(ctx context.Context, message *mDNS.
 		}
 		return dns.FixedResponse(message.Id, question, responseAddrs, constant.DefaultDNSTTL), nil
 	}
+}
+
+func (p *platformLocalDNSTransport) ExchangeAsync(ctx context.Context, message *mDNS.Msg, callback func(response *mDNS.Msg, err error)) {
+	go func() {
+		response, err := p.Exchange(ctx, message)
+		callback(response, err)
+	}()
 }
 
 type Func interface {

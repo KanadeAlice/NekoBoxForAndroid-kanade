@@ -8,6 +8,7 @@ import (
 	"github.com/sagernet/sing-box/adapter/inbound"
 	"github.com/sagernet/sing-box/adapter/outbound"
 	"github.com/sagernet/sing-box/adapter/service"
+	"github.com/sagernet/sing-box/adapter/certificate"
 	"github.com/sagernet/sing-box/dns"
 	"github.com/sagernet/sing-box/dns/transport"
 	"github.com/sagernet/sing-box/dns/transport/fakeip"
@@ -123,4 +124,8 @@ func nekoboxAndroidServiceRegistry() *service.Registry {
 	registry := service.NewRegistry()
 
 	return registry
+}
+
+func nekoboxAndroidCertificateRegistry() *certificate.Registry {
+	return certificate.NewRegistry()
 }
