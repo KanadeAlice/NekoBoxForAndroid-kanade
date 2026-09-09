@@ -680,14 +680,13 @@ fun buildConfig(
         dns.servers.add(DNSServerOptions().apply {
             type = "local"
             tag = "dns-local"
-            detour = TAG_DIRECT
         })
 
         directDNS.firstOrNull().let {
             dns.servers.add(
                 makeSingBoxDnsServer(
                     it ?: throw Exception("No direct DNS, check your settings!"),
-                    "dns-direct", TAG_DIRECT, "dns-local",
+                    "dns-direct", null, "dns-local",
                 )
             )
         }
@@ -697,7 +696,7 @@ fun buildConfig(
             if (!forTest) dns.servers.add(
                 makeSingBoxDnsServer(
                     it ?: throw Exception("No remote DNS, check your settings!"),
-                    "dns-remote", null, "dns-direct",
+                    "dns-remote", TAG_PROXY, "dns-direct",
                 )
             )
         }
