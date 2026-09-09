@@ -15,21 +15,22 @@ pushd sing-box
 git checkout "$COMMIT_SING_BOX"
 popd
 
-# --- neko patch: REALITY client version spoof (fix Xray-core 26.3.27 minClientVer gate) ---
-# Xray-core v26.7.11+ enforces default REALITY minClientVer=26.3.27; sing-box's reality
-# client hardcodes ClientVer=1.8.1 and gets rejected. Bump it to 26.7.28 (>= 26.3.27).
-# Refs: XTLS/Xray-core commit af7eb68028 ; MHSanaei/3x-ui#5922
+# --- neko patch: REALITY client version spoof (defeat Xray-core minClientVer gate) ---
+# Xray-core v26.7.11+ enforces a REALITY minClientVer floor; when left blank it tracks the
+# panel's current core version, so any fixed client version gets outrun on the next Xray update.
+# sing-box hardcodes ClientVer=1.8.1; report the max 255.255.255 so the handshake passes ANY
+# minClientVer floor, permanently. Refs: XTLS/Xray-core commit af7eb68028 ; MHSanaei/3x-ui#5922
 REALITY_FILE="sing-box/common/tls/reality_client.go"
 if [ -f "$REALITY_FILE" ]; then
-  if ! grep -qF 'hello.SessionId[0] = 26' "$REALITY_FILE"; then
+  if ! grep -qF 'hello.SessionId[0] = 255' "$REALITY_FILE"; then
     sed -i \
-      -e 's/hello\.SessionId\[0\] = 1$/hello.SessionId[0] = 26/' \
-      -e 's/hello\.SessionId\[1\] = 8$/hello.SessionId[1] = 7/' \
-      -e 's/hello\.SessionId\[2\] = 1$/hello.SessionId[2] = 28/' \
+      -e 's/hello\.SessionId\[0\] = 1$/hello.SessionId[0] = 255/' \
+      -e 's/hello\.SessionId\[1\] = 8$/hello.SessionId[1] = 255/' \
+      -e 's/hello\.SessionId\[2\] = 1$/hello.SessionId[2] = 255/' \
       "$REALITY_FILE"
   fi
-  if grep -qF 'hello.SessionId[0] = 26' "$REALITY_FILE" && grep -qF 'hello.SessionId[1] = 7' "$REALITY_FILE" && grep -qF 'hello.SessionId[2] = 28' "$REALITY_FILE"; then
-    echo ">> reality patch applied: ClientVer -> 26.7.28 (>= 26.3.27)"
+  if grep -qF 'hello.SessionId[0] = 255' "$REALITY_FILE" && grep -qF 'hello.SessionId[1] = 255' "$REALITY_FILE" && grep -qF 'hello.SessionId[2] = 255' "$REALITY_FILE"; then
+    echo ">> reality patch applied: ClientVer -> 255.255.255 (passes any minClientVer)"
   else
     echo ">> ERROR: reality patch failed to apply; upstream may have changed $REALITY_FILE" >&2
     exit 1
