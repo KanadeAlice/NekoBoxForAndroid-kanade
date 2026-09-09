@@ -1,7 +1,7 @@
 # NekoBox for Android
 
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Releases](https://img.shields.io/github/v/release/AliceRumiho/nb4a-114)](https://github.com/AliceRumiho/nb4a-114/releases)
+[![Releases](https://img.shields.io/github/v/release/AliceRumiho/NekoBoxForAndroid-kanade)](https://github.com/AliceRumiho/NekoBoxForAndroid-kanade/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 sing-box / universal proxy toolchain for Android.
@@ -14,9 +14,9 @@ sing-box / universal proxy toolchain for Android.
 
 ## 下载 / Downloads
 
-[![GitHub All Releases](https://img.shields.io/github/downloads/AliceRumiho/nb4a-114/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/AliceRumiho/nb4a-114/releases)
+[![GitHub All Releases](https://img.shields.io/github/downloads/AliceRumiho/NekoBoxForAndroid-kanade/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/AliceRumiho/NekoBoxForAndroid-kanade/releases)
 
-[GitHub Releases 下载](https://github.com/AliceRumiho/nb4a-114/releases)
+[GitHub Releases 下载](https://github.com/AliceRumiho/NekoBoxForAndroid-kanade/releases)
 
 **Google Play 版本自 2024 年 5 月起已被第三方控制，为非开源版本，请不要下载。**
 
