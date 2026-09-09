@@ -1,18 +1,22 @@
 # NekoBox for Android
 
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Releases](https://img.shields.io/github/v/release/MatsuriDayo/NekoBoxForAndroid)](https://github.com/MatsuriDayo/NekoBoxForAndroid/releases)
+[![Releases](https://img.shields.io/github/v/release/AliceRumiho/nb4a-114)](https://github.com/AliceRumiho/nb4a-114/releases)
 [![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 sing-box / universal proxy toolchain for Android.
 
 一款使用 sing-box 的 Android 通用代理软件.
 
+> **本仓库是 [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid) 的个人分支 (fork)。** 在其 v1.4.2 基础上把内核升级到 sing-box 1.14 并做了相应适配 (DNS / TUN / WireGuard schema、REALITY)。版权与商标归上游所有，本分支仅供个人使用。
+>
+> **This is a personal fork of [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)**, with the kernel upgraded to sing-box 1.14. All rights and trademarks belong to the upstream project.
+
 ## 下载 / Downloads
 
-[![GitHub All Releases](https://img.shields.io/github/downloads/Matsuridayo/NekoBoxForAndroid/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/Matsuridayo/NekoBoxForAndroid/releases)
+[![GitHub All Releases](https://img.shields.io/github/downloads/AliceRumiho/nb4a-114/total?label=downloads-total&logo=github&style=flat-square)](https://github.com/AliceRumiho/nb4a-114/releases)
 
-[GitHub Releases 下载](https://github.com/Matsuridayo/NekoBoxForAndroid/releases)
+[GitHub Releases 下载](https://github.com/AliceRumiho/nb4a-114/releases)
 
 **Google Play 版本自 2024 年 5 月起已被第三方控制，为非开源版本，请不要下载。**
 
@@ -86,6 +90,10 @@ XMR
 </details>
 
 ## Credits
+
+Upstream / 上游:
+
+- [MatsuriDayo/NekoBoxForAndroid](https://github.com/MatsuriDayo/NekoBoxForAndroid)
 
 Core:
 
