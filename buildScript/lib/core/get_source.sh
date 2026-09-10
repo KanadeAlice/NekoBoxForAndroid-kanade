@@ -41,6 +41,28 @@ else
 fi
 # --- end neko patch ---
 
+# --- neko patch: REALITY post-quantum X25519MLKEM768 (Xray-core >= v26.9 REQUIRES it) ---
+# Modern Xray REALITY servers reject any ClientHello lacking an X25519MLKEM768 key share
+# (-> "reality verification failed"). Upstream sing-box deliberately STRIPS it, so this
+# UNDOES that strip and derives auth from Ecdhe??MlkemEcdhe, mirroring Xray-core's UClient.
+# Do NOT re-enable the strip when syncing upstream, or REALITY breaks against current Xray.
+if [ -f "$REALITY_FILE" ]; then
+  if ! grep -qF 'keyShareKeys.MlkemEcdhe' "$REALITY_FILE"; then
+    sed -i \
+      -e 's/return curveID != utls.X25519MLKEM768/return true/' \
+      -e 's/return share.Group != utls.X25519MLKEM768/return true/' \
+      -e 's|ecdheKey := keyShareKeys.Ecdhe|ecdheKey := keyShareKeys.Ecdhe\n\tif ecdheKey == nil {\n\t\tecdheKey = keyShareKeys.MlkemEcdhe\n\t}|' \
+      "$REALITY_FILE"
+  fi
+  if grep -qF 'keyShareKeys.MlkemEcdhe' "$REALITY_FILE" && ! grep -qF 'return curveID != utls.X25519MLKEM768' "$REALITY_FILE"; then
+    echo ">> reality MLKEM patch applied: X25519MLKEM768 kept; auth via Ecdhe??MlkemEcdhe"
+  else
+    echo ">> ERROR: reality MLKEM patch failed to apply; upstream may have changed $REALITY_FILE" >&2
+    exit 1
+  fi
+fi
+# --- end neko patch ---
+
 # --- neko patch: boxapi RoutedFlow (adapter.ConnectionTracker gained RoutedFlow in 1.14) ---
 ROUTEDFLOW_FILE="sing-box/boxapi/routedflow_neko.go"
 if [ -f "sing-box/boxapi/v2ray_stats_service.go" ] && [ ! -f "$ROUTEDFLOW_FILE" ]; then
