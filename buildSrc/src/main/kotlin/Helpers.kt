@@ -97,7 +97,14 @@ fun Project.setupCommon() {
                     applicationIdSuffix = "debug"
                     debuggable(true)
                     jniDebuggable(true)
+                    if (!System.getenv("NB4A_TEST_BUILD").isNullOrEmpty()) {
+                        applicationIdSuffix = "debug.test"
+                        versionNameSuffix = "-test"
+                    }
                 }
+            }
+            if (!System.getenv("NB4A_TEST_BUILD").isNullOrEmpty()) {
+                sourceSets.getByName("debug").res.srcDir("src/nekotest/res")
             }
             applicationVariants.forEach { variant ->
                 variant.outputs.forEach {
