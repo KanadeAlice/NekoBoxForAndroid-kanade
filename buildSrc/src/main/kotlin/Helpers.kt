@@ -142,6 +142,14 @@ fun Project.setupAppCommon() {
             if (key != null) {
                 getByName("release").signingConfig = key
                 getByName("debug").signingConfig = key
+            } else {
+                val debugStable = signingConfigs.create("debugStable") {
+                    storeFile = rootProject.file("ci-debug.keystore")
+                    storePassword = "android"
+                    keyAlias = "androiddebugkey"
+                    keyPassword = "android"
+                }
+                getByName("debug").signingConfig = debugStable
             }
         }
     }
