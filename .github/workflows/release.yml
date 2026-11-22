@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Golang Status
-        run: find buildScript libcore/*.sh | xargs cat | sha1sum > golang_status
+        run: find buildScript libcore/*.sh -type f | sort | xargs cat | sha1sum > golang_status
       - name: Libcore Status
         run: git ls-files libcore | xargs cat | sha1sum > libcore_status
       - name: LibCore Cache
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Golang Status
-        run: find buildScript libcore/*.sh | xargs cat | sha1sum > golang_status
+        run: find buildScript libcore/*.sh -type f | sort | xargs cat | sha1sum > golang_status
       - name: Libcore Status
         run: git ls-files libcore | xargs cat | sha1sum > libcore_status
       - name: LibCore Cache
@@ -55,6 +55,12 @@ jobs:
           path: |
             app/libs/libcore.aar
           key: ${{ hashFiles('.github/workflows/*', 'golang_status', 'libcore_status') }}
+      - name: Verify LibCore
+        run: |
+          if [ ! -f app/libs/libcore.aar ]; then
+            echo "::error::app/libs/libcore.aar missing - LibCore cache key mismatch between jobs"
+            exit 1
+          fi
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -112,7 +118,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Golang Status
-        run: find buildScript libcore/*.sh | xargs cat | sha1sum > golang_status
+        run: find buildScript libcore/*.sh -type f | sort | xargs cat | sha1sum > golang_status
       - name: Libcore Status
         run: git ls-files libcore | xargs cat | sha1sum > libcore_status
       - name: LibCore Cache
@@ -121,6 +127,12 @@ jobs:
           path: |
             app/libs/libcore.aar
           key: ${{ hashFiles('.github/workflows/*', 'golang_status', 'libcore_status') }}
+      - name: Verify LibCore
+        run: |
+          if [ ! -f app/libs/libcore.aar ]; then
+            echo "::error::app/libs/libcore.aar missing - LibCore cache key mismatch between jobs"
+            exit 1
+          fi
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
