@@ -11,6 +11,7 @@ import (
 	"runtime/debug"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/matsuridayo/libneko/protect_server"
 	"github.com/matsuridayo/libneko/speedtest"
@@ -160,7 +161,17 @@ func (b *BoxInstance) Close() (err error) {
 		b.cancel()
 	}
 	if b.Box != nil {
-		b.Box.Close()
+		// Teardown can block on a stuck connection or the tun device, and this
+		// runs on the Android main thread, so bound the wait instead of hanging.
+		closed := make(chan struct{})
+		go func() {
+			defer close(closed)
+			b.Box.Close()
+		}()
+		select {
+		case <-closed:
+		case <-time.After(3 * time.Second):
+		}
 	}
 
 	return nil

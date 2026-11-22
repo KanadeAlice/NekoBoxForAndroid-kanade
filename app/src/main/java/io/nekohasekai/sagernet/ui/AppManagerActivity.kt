@@ -360,8 +360,9 @@ class AppManagerActivity : ThemedActivity() {
                             }
                         }
                     }
-                    DataStore.individual =
-                        apps.filter { isProxiedApp(it) }.joinToString("\n") { it.packageName }
+                    DataStore.individual = cachedApps.filterValues { info ->
+                        info.applicationInfo?.let { proxiedUids[it.uid] } == true
+                    }.keys.joinToString("\n")
                     apps = apps.sortedWith(compareBy({ !isProxiedApp(it) }, { it.name.toString() }))
                     appsAdapter.filter.filter(binding.search.text?.toString() ?: "")
                 } catch (e: Exception) {
